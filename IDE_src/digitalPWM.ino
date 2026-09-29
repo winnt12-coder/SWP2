@@ -8,8 +8,9 @@ void setup() {
 }
 
 void loop() {
-  d = set_duty(d);
   p = set_period(p);
+  d = set_duty(d);
+  
 
   int t = map(d,0,100,0,p);
 
@@ -30,20 +31,40 @@ int set_period(int period){         //주기
 }
 
 int set_duty(int duty){             //단계
-  if(inc == true){
-    if(duty < 100){
-      duty += 1;
+  if(5000/p > 0){
+    if(inc == true){
+      if(duty < 100){
+        duty += 1;
+      }
+      else{
+        inc = false;
+      }
     }
     else{
-      inc = false;
+      if(duty > 0){
+        duty -= 1;
+      }
+      else{
+      inc = true;
+      }
     }
   }
   else{
-    if(duty > 0){
-      duty -= 1;
+    if(inc == true){
+      if(duty < 100){
+        duty += 2;
+      }
+      else{
+        inc = false;
+      }
     }
     else{
+      if(duty > 0){
+        duty -= 2;
+      }
+      else{
       inc = true;
+      }
     }
   }
   return duty;
