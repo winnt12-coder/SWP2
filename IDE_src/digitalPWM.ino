@@ -14,19 +14,30 @@ void loop() {
 
   int t = map(d,0,100,0,p);
 
-  for(int i=0; i<=5000/p; i++){
-    digitalWrite(led, HIGH);
-    delayMicroseconds(t);
+  if(5000/p > 0){
+    for(int i=0; i<5000/p; i++){
+      digitalWrite(led, HIGH);
+      delayMicroseconds(t);
 
-    digitalWrite(led, LOW);
-    delayMicroseconds(p-t);
+      digitalWrite(led, LOW);
+      delayMicroseconds(p-t);
+    }
+  }
+  else{
+    for(int i=0; i<=5000/p; i++){
+      digitalWrite(led, HIGH);
+      delayMicroseconds(t);
+
+      digitalWrite(led, LOW);
+      delayMicroseconds(p-t);
+    }
   }
 }
 
 int set_period(int period){         //주기
-  period = 100;
+  //period = 100;
   //period = 1000;
-  //period = 10000;
+   cperiod = 10000;
   return period;
 }
 
