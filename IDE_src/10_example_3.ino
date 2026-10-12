@@ -1,11 +1,3 @@
-/*
- * Created by ArduinoGetStarted.com
- *
- * This example code is in the public domain
- *
- * Tutorial page: https://arduinogetstarted.com/faq/how-to-control-speed-of-servo-motor
- */
-
 #include <Servo.h>
 
 // Arduino pin assignment
@@ -22,7 +14,7 @@
 #define SCALE (0.001 * 0.5 * SND_VEL) // coefficent to convert duration to distance
 
 Servo myServo;
-unsigned long MOVING_TIME = 1000; // moving time is 3 seconds
+unsigned long MOVING_TIME = 1000; // moving time is 1 seconds
 unsigned long moveStartTime;
 int startAngle = 0; 
 int stopAngle  = 90;
@@ -43,15 +35,13 @@ void setup() {
 void loop() {
   float dist_raw = USS_measure(PIN_TRIG, PIN_ECHO);
 
-  // 0이 아니면서 50mm 이내일 때만 감지
-  bool detected = (dist_raw > 0 && dist_raw <= 200.0);
-
-  // 감지 상태가 바뀌었을 때만 목표 각도 변경
-  if (detected != wasDetected) {
+  bool detect = (dist_raw > 0 && dist_raw <= 200.0);
+  
+  if (detect != wasDetected) {
     startAngle = myServo.read();
-    targetAngle = detected ? 90 : 0;
+    targetAngle = detect ? 90 : 0;
     moveStartTime = millis();
-    wasDetected = detected;
+    wasDetected = detect;
   }
 
   unsigned long progress = millis() - moveStartTime;
@@ -72,9 +62,11 @@ float sigmoid(float x){
   return 1.0 / (1.0 + exp(-x));
 }
 
-//float sin(){
-  
-//}
+/*float sinF(float x){
+  x = x / 1000.0;
+  float s = sin(PI * x / 2.0);
+  return s * s;
+}*/
 
 float USS_measure(int TRIG, int ECHO)
 {
@@ -82,5 +74,5 @@ float USS_measure(int TRIG, int ECHO)
   delayMicroseconds(PULSE_DURATION);
   digitalWrite(TRIG, LOW);
   
-  return pulseIn(ECHO, HIGH, TIMEOUT) * SCALE; // unit: mm
+  return pulseIn(ECHO, HIGH, TIMEOUT) * SCALE;
 }
