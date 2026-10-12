@@ -17,7 +17,6 @@ Servo myServo;
 unsigned long MOVING_TIME = 1000; // moving time is 1 seconds
 unsigned long moveStartTime;
 int startAngle = 0; 
-int stopAngle  = 90;
 int targetAngle = 0;
 bool wasDetected = false;
 
